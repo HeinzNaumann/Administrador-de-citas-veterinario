@@ -1,8 +1,8 @@
 import {useState, useEffect } from 'react';
+import Error from './Error';
 
 
-
-const Formulario = () => {
+const Formulario = ({setPacientes, pacientes}) => {
 
   const [value, setNombre] = useState({ nombre: '', propietario: '', email: '', date: '', sintomas: '' });
   
@@ -24,8 +24,13 @@ const Formulario = () => {
       console.log("Hay al menos un campo vacio")
       setError(true);
     } else {
-      setError(false);     
-      console.log("Todos llenos")
+      setError(false);    
+      console.log(value)
+      //Obejeto de paciente
+      setPacientes([...pacientes, value]);
+
+      //Reiniciar 
+      setNombre({ nombre: '', propietario: '', email: '', date: '', sintomas: '' })
     }
   }
 
@@ -38,11 +43,7 @@ const Formulario = () => {
     </p>
     <form onSubmit={handleSubmit} className="bg-white shadow-md rounded-lg py-10 px-5 mb-10">
       <div className="mb-5">
-        {error && 
-          <div className='bg-red-800 text-white text-center p-3 uppercase font-bold mb-3 rounded-md'>
-            <p>Todos los campos son obligatorios</p>
-          </div>
-        }
+        {error && <Error mensaje="Todos los campos son obligatorios"/>}
         <label htmlFor="mascota" className="block text-gray-700 uppercase font-bold">
           Nombre Mascota</label>
         <input
